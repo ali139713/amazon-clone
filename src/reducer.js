@@ -1,5 +1,9 @@
-export const initalState = {
+export const initialState = {
   basket: [],
+};
+
+export const getBasketTotal = (basket) => {
+  basket?.reduce((amount, item) => amount + item.price, 0);
 };
 
 const reducer = (state, action) => {

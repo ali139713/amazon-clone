@@ -6,9 +6,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div>
+        <Header />
         <Routes>
-          <Header />
           <Route
             path="/checkout"
             element={
@@ -18,6 +18,7 @@ function App() {
             }
           />
           <Route
+            exact
             path="/"
             element={
               <>
