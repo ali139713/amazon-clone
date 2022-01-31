@@ -1,17 +1,17 @@
-import './App.css';
-import Header from './components/Header';
-import Home from './components/Home';
-import Checkout from './components/Checkout';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './components/Login';
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useEffect } from 'react';
+import './App.css';
+import Checkout from './components/Checkout';
+import Header from './components/Header';
+import Home from './components/Home';
+import Login from './components/Login';
 import { auth } from './firebase';
 import { useStateValue } from './StateProvider';
 
 function App() {
-  const [{}, dispatch] = useStateValue();
+  const [dispatch] = useStateValue();
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
@@ -27,7 +27,7 @@ function App() {
         });
       }
     });
-  }, []);
+  }, [dispatch]);
 
   return (
     <Router>

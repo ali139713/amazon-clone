@@ -2,9 +2,10 @@ import React from 'react';
 import './Product.css';
 import { StarRate } from '@material-ui/icons';
 import { useStateValue } from '../StateProvider';
+import notificationSvc from '../services/notificationService';
 
 function Product({ id, title, image, price, rating }) {
-  const [state, dispatch] = useStateValue();
+  const [dispatch] = useStateValue();
 
   const addToBasket = () => {
     dispatch({
@@ -17,6 +18,7 @@ function Product({ id, title, image, price, rating }) {
         rating: rating,
       },
     });
+    notificationSvc.success(`${title} Added successfully to Cart`);
   };
 
   return (
