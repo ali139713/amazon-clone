@@ -18,8 +18,8 @@ function Header() {
         <SearchIcon className="header__searchIcon" />
       </div>
       <div className="header__nav">
-        <div className="header__option">
-          <Link to="/login">
+        <Link to="/login">
+          <div className="header__option">
             <span
               className="header__optionLineOne
  "
@@ -32,8 +32,8 @@ function Header() {
             >
               Sign in
             </span>
-          </Link>
-        </div>
+          </div>
+        </Link>
         <div className="header__option">
           <span
             className="header__optionLineOne
