@@ -10,6 +10,14 @@ function App() {
         <Header />
         <Routes>
           <Route
+            path="/login"
+            element={
+              <>
+                <h1>Login Page!!!</h1>
+              </>
+            }
+          />
+          <Route
             path="/checkout"
             element={
               <>
