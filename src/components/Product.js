@@ -5,9 +5,10 @@ import { useStateValue } from '../StateProvider';
 import notificationSvc from '../services/notificationService';
 
 function Product({ id, title, image, price, rating }) {
-  const [dispatch] = useStateValue();
+  const [{}, dispatch] = useStateValue();
 
   const addToBasket = () => {
+    notificationSvc.success(`${title} Added successfully to Cart`);
     dispatch({
       type: 'ADD_TO_BASKET',
       item: {
@@ -18,7 +19,6 @@ function Product({ id, title, image, price, rating }) {
         rating: rating,
       },
     });
-    notificationSvc.success(`${title} Added successfully to Cart`);
   };
 
   return (
