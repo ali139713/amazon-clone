@@ -7,11 +7,12 @@ import Checkout from './components/Checkout';
 import Header from './components/Header';
 import Home from './components/Home';
 import Login from './components/Login';
+import Payment from './components/Payment';
 import { auth } from './firebase';
 import { useStateValue } from './StateProvider';
 
 function App() {
-  const [dispatch] = useStateValue();
+  const [{}, dispatch] = useStateValue();
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
@@ -48,6 +49,15 @@ function App() {
               <>
                 <Header />
                 <Checkout />
+              </>
+            }
+          />
+          <Route
+            path="/payment"
+            element={
+              <>
+                <Header />
+                <Payment />
               </>
             }
           />
