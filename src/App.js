@@ -8,6 +8,7 @@ import Header from './components/Header';
 import Home from './components/Home';
 import Login from './components/Login';
 import Payment from './components/Payment';
+import Orders from './components/Orders';
 import { auth } from './firebase';
 import { useStateValue } from './StateProvider';
 import { loadStripe } from '@stripe/stripe-js';
@@ -41,6 +42,15 @@ function App() {
       <div>
         <ToastContainer hideProgressBar={true} />
         <Routes>
+          <Route
+            path="/orders"
+            element={
+              <>
+                <Header />
+                <Orders />
+              </>
+            }
+          />
           <Route
             path="/login"
             element={

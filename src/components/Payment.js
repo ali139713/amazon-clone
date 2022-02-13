@@ -1,15 +1,19 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import axios from '../axios';
 import React, { useEffect, useState } from 'react';
 import CurrencyFormat from 'react-currency-format';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getBasketTotal } from '../reducer';
 import { useStateValue } from '../StateProvider';
 import CheckoutProduct from './CheckoutProduct';
 import './Payment.css';
+import notificationSvc from '../services/notificationService';
+import { db } from '../firebase';
 
 function Payment() {
   const stripe = useStripe();
   const elements = useElements();
+  const navigate = useNavigate();
 
   const [{ basket, user }, dispatch] = useStateValue();
   const [error, setError] = useState(null);
@@ -20,14 +24,45 @@ function Payment() {
 
   useEffect(() => {
     const getClientSecret = async () => {
-      // const response = await axios.
+      const response = await axios({
+        method: 'post',
+        url: `/payments/create?total=${getBasketTotal(basket) * 100}`,
+      });
+      setClientSecret(response.data.clientSecret);
     };
     getClientSecret();
-  }, []);
+  }, [basket]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setProcessing(true);
+
+    const payload = await stripe
+      .confirmCardPayment(clientSecret.toString(), {
+        payment_method: {
+          card: elements.getElement(CardElement),
+        },
+      })
+      .then(({ paymentIntent }) => {
+        // paymentIntent = payment confirmation;
+
+        db.collection('users').doc(user?.uid).collection('orders').doc(paymentIntent.id).set({
+          basket: basket,
+          amount: paymentIntent.amount,
+          created: paymentIntent.created,
+        });
+
+        setSucceeded(true);
+        setError(true);
+        setProcessing(false);
+
+        dispatch({
+          type: 'EMPTY_BASKET',
+        });
+
+        navigate('/orders');
+      })
+      .catch((error) => notificationSvc.error(error));
   };
   const handleChange = (e) => {
     setDisabled(e.empty);
